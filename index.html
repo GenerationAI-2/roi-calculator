@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI ROI Calculator - Generation AI</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="screen active">
+            <div class="welcome-content">
+                <h1>Calculate Your AI ROI in 2 Minutes</h1>
+                <p class="description">See the real financial impact of automating document processing with AI. Based on 2025 research from McKinsey, PwC, and NZ AI Forum.</p>
+                <button class="btn-primary" onclick="startCalculator()">Calculate ROI →</button>
+            </div>
+        </div>
+
+        <!-- Questions Screen -->
+        <div id="questions-screen" class="screen">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+
+            <form id="calculator-form">
+                <!-- Question 1: Staff Count -->
+                <div class="question active" data-question="1">
+                    <h2>How many people currently process documents?</h2>
+                    <p class="helper-text">Include anyone handling invoices, contracts, forms, reports</p>
+                    <input type="number" id="people" min="1" max="500" required>
+                    <button type="button" class="btn-primary" onclick="nextQuestion(2)">Next →</button>
+                </div>
+
+                <!-- Question 2: Time Allocation -->
+                <div class="question" data-question="2">
+                    <h2>What % of their time goes to document processing?</h2>
+                    <div class="slider-container">
+                        <input type="range" id="time_percent" min="10" max="100" step="5" value="30">
+                        <div class="slider-value"><span id="time_percent_display">30</span>%</div>
+                    </div>
+                    <button type="button" class="btn-secondary" onclick="prevQuestion(1)">← Back</button>
+                    <button type="button" class="btn-primary" onclick="nextQuestion(3)">Next →</button>
+                </div>
+
+                <!-- Question 3: Average Salary -->
+                <div class="question" data-question="3">
+                    <h2>Average annual salary for these staff?</h2>
+                    <p class="helper-text">Enter fully loaded annual salary (incl. overheads)</p>
+                    <select id="salary" required>
+                        <option value="50000">$50,000</option>
+                        <option value="60000">$60,000</option>
+                        <option value="70000" selected>$70,000</option>
+                        <option value="80000">$80,000</option>
+                        <option value="90000">$90,000</option>
+                        <option value="100000">$100,000</option>
+                        <option value="120000">$120,000</option>
+                    </select>
+                    <button type="button" class="btn-secondary" onclick="prevQuestion(2)">← Back</button>
+                    <button type="button" class="btn-primary" onclick="nextQuestion(4)">Next →</button>
+                </div>
+
+                <!-- Question 4: AI Efficiency Gain -->
+                <div class="question" data-question="4">
+                    <h2>Expected time savings from AI automation</h2>
+                    <p class="helper-text">Industry average: 25% | We recommend conservative: 20%</p>
+                    <div class="slider-container">
+                        <input type="range" id="savings_percent" min="10" max="40" step="5" value="20">
+                        <div class="slider-value"><span id="savings_percent_display">20</span>%</div>
+                    </div>
+                    <button type="button" class="btn-secondary" onclick="prevQuestion(3)">← Back</button>
+                    <button type="button" class="btn-primary" onclick="nextQuestion(5)">Next →</button>
+                </div>
+
+                <!-- Question 5: AI Tool Cost -->
+                <div class="question" data-question="5">
+                    <h2>Monthly AI tool investment</h2>
+                    <p class="helper-text">Typical ranges by organisation size:<br>
+                        • 1–10 staff: $500–$1,000<br>
+                        • 11–50 staff: $1,000–$2,000<br>
+                        • 51–200 staff: $2,000–$5,000<br>
+                        • 200+ staff: $5,000–$10,000
+                    </p>
+                    <select id="ai_monthly" required>
+                        <option value="500">$500/month</option>
+                        <option value="1000" selected>$1,000/month</option>
+                        <option value="2000">$2,000/month</option>
+                        <option value="3000">$3,000/month</option>
+                        <option value="5000">$5,000/month</option>
+                        <option value="10000">$10,000/month</option>
+                    </select>
+                    <button type="button" class="btn-secondary" onclick="prevQuestion(4)">← Back</button>
+                    <button type="button" class="btn-primary" onclick="calculateResults()">Calculate Results →</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen">
+            <h1>Your AI ROI Results</h1>
+
+            <div class="results-grid">
+                <div class="result-card">
+                    <h3>Current Annual Cost</h3>
+                    <div class="result-value" id="result-current-cost">$0</div>
+                    <p class="result-description">What you're spending now on manual document processing</p>
+                </div>
+
+                <div class="result-card">
+                    <h3>Cost with AI</h3>
+                    <div class="result-value" id="result-ai-cost">$0</div>
+                    <p class="result-description">Annual AI tool investment</p>
+                </div>
+
+                <div class="result-card">
+                    <h3>Annual Savings</h3>
+                    <div class="result-value highlight" id="result-savings">$0</div>
+                    <p class="result-description">Productivity gains from automation</p>
+                </div>
+
+                <div class="result-card">
+                    <h3>Net Benefit Year 1</h3>
+                    <div class="result-value highlight" id="result-net-benefit">$0</div>
+                    <p class="result-description">Savings minus AI costs</p>
+                </div>
+
+                <div class="result-card">
+                    <h3>Return Multiple</h3>
+                    <div class="result-value" id="result-roi-multiple">0×</div>
+                    <p class="result-description">Return for every dollar invested</p>
+                </div>
+
+                <div class="result-card">
+                    <h3>Payback Period</h3>
+                    <div class="result-value" id="result-payback">0 months</div>
+                    <p class="result-description">Time to recover your investment</p>
+                </div>
+            </div>
+
+            <div class="disclaimer">
+                <p><strong>All values shown in NZD.</strong></p>
+                <p>Based on 2025 research: McKinsey (20-45% typical productivity gains), PwC (30-200% first-year ROI), NZ AI Forum (89% of businesses report efficiency improvements).</p>
+                <p>This is an indicative estimate in NZD, not financial advice. Actual results will vary by organisation, vendor pricing, and implementation.</p>
+            </div>
+
+            <div class="cta-buttons">
+                <button class="btn-primary" onclick="window.location.href='https://www.generationai.co.nz/'">Check Your Readiness →</button>
+                <button class="btn-secondary" onclick="resetCalculator()">Start New Calculation</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
