@@ -2,6 +2,9 @@
 
 A standalone, embeddable web application for calculating the ROI of AI adoption in document processing.
 
+**🚀 Live Demo:** Deployed on Azure Static Web Apps
+**📦 Repository:** [github.com/GenerationAI-2/roi-calculator](https://github.com/GenerationAI-2/roi-calculator)
+
 ## Features
 
 - **Simple 5-Question Flow**: Guides users through a clean, progressive disclosure interface
@@ -24,29 +27,36 @@ A standalone, embeddable web application for calculating the ROI of AI adoption 
 
 ### Embedding on Your Website
 
-Add this iframe code to any page:
+Add this iframe code to any page (Wix, WordPress, Squarespace, etc.):
 
 ```html
 <iframe
-  src="https://your-domain.com/roi-calculator/index.html"
+  src="https://YOUR-AZURE-URL.azurestaticapps.net"
   width="100%"
-  height="800"
+  height="900"
   frameborder="0"
   style="border: none; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
 </iframe>
 ```
 
-**Responsive Embedding:**
+**Responsive Embedding (Recommended for Wix):**
 
 ```html
 <div style="position: relative; padding-bottom: 100%; height: 0; overflow: hidden; max-width: 100%;">
   <iframe
-    src="https://your-domain.com/roi-calculator/index.html"
+    src="https://YOUR-AZURE-URL.azurestaticapps.net"
     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 12px;"
-    allow="fullscreen">
+    allow="fullscreen"
+    title="AI ROI Calculator">
   </iframe>
 </div>
 ```
+
+**For Wix Studio:**
+1. Add **Embed Code** element
+2. Choose **Embed HTML**
+3. Paste iframe code above
+4. Adjust height to 900px minimum
 
 ## Calculation Formulas
 
@@ -129,6 +139,8 @@ roi-calculator/
 ├── index.html          # Main HTML structure
 ├── styles.css          # GenerationAI branded styles
 ├── script.js           # Calculator logic
+├── web.config          # Azure App Service configuration
+├── .deployment         # Azure deployment settings
 └── README.md           # This file
 ```
 
@@ -207,23 +219,41 @@ function calculateResults() {
 }
 ```
 
-## Hosting Options
+## Deployment
 
-### Option 1: GitHub Pages (Free)
-1. Create a GitHub repository
-2. Upload all files
-3. Enable GitHub Pages in Settings
-4. Your calculator will be at: `https://username.github.io/repo-name/`
+### Current Hosting: Azure Static Web Apps ✅
 
-### Option 2: Netlify (Free)
-1. Drag and drop the folder to [Netlify Drop](https://app.netlify.com/drop)
-2. Get instant hosting with HTTPS
-3. Optional: Connect custom domain
+This calculator is deployed on **Azure Static Web Apps** with automatic CI/CD from GitHub.
 
-### Option 3: Your Existing Website
-1. Upload files to your web server
-2. Place in a subdirectory (e.g., `/roi-calculator/`)
-3. Link from your main site
+**Deployment Configuration:**
+- **Platform:** Azure Static Web Apps
+- **Region:** Australia East
+- **Source:** GitHub (GenerationAI-2/roi-calculator)
+- **Branch:** main
+- **Auto-deploy:** Enabled via GitHub Actions
+
+**Features:**
+- ✅ Global CDN
+- ✅ Automatic HTTPS
+- ✅ Custom domain support
+- ✅ Free tier (100GB bandwidth/month)
+- ✅ CI/CD on every push
+
+### Alternative Hosting Options
+
+**GitHub Pages:**
+- Free hosting at `generationai-2.github.io/roi-calculator`
+- Enable in repo Settings → Pages
+
+**Cloudflare Pages:**
+- Fastest global CDN
+- Connect to GitHub repo
+- Deploy at pages.cloudflare.com
+
+**Netlify:**
+- Drag & drop deployment
+- Auto-deploy from Git
+- Deploy at netlify.com/drop
 
 ## Browser Compatibility
 
